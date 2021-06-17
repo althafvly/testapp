@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">टेस्ट ऐप</string>
+    <string name="click">क्लिक</string>
+    <string name="no_network_error">कोई नेटवर्क एक्सेस नहीं, कृपया नेटवर्क से कनेक्ट करें</string>
+    <string name="old_image_warning">भरी हुई कैश्ड छवि</string>
+</resources>
