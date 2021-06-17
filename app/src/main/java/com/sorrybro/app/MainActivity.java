@@ -11,18 +11,28 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final File cacheDir = new File(android.os.Environment.getExternalStorageDirectory(),"TestAppImages");
 
         int loader = R.drawable.dummy;
         ImageView image = findViewById(R.id.image);
         String image_url = "https://picsum.photos/720";
         ImageLoader imgLoader = new ImageLoader(getApplicationContext());
-        imgLoader.DisplayImage(image_url, loader, image);
+
+        if(cacheDir.exists()) {
+            String[] files = cacheDir.list();
+            if (files.length != 0) {
+                imgLoader.DisplayImage(image_url, loader, image);
+            }
+        }
+
         ShowWarning();
 
         Button button = findViewById(R.id.button);
