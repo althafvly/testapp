@@ -2,25 +2,18 @@ package com.sorrybro.app;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Build.VERSION;
-import android.provider.Settings;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 
@@ -69,20 +62,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showImageWarning() {
-        TextView textimage = findViewById(R.id.textView);
-        if(!isNetworkAvailable()) {
-            textimage.setText(R.string.old_image_warning);
-        } else {
-            textimage.setText("");
+        if (!isNetworkAvailable()) {
+            Toast.makeText(getApplicationContext(),
+                    R.string.old_image_warning,
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
     private void showNetworkWarning() {
         if(!isNetworkAvailable()) {
-            Toast toast = Toast.makeText(getApplicationContext(),
+            Toast.makeText(getApplicationContext(),
                     R.string.no_network_error,
-                    Toast.LENGTH_SHORT);
-            toast.show();
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
