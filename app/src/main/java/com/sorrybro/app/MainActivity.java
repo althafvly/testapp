@@ -44,19 +44,19 @@ public class MainActivity extends AppCompatActivity {
                 PackageManager.PERMISSION_GRANTED) {
             if (!isDirectoryEmpty()) {
                 imgLoader.DisplayImage(image_url, loader, image);
-                ShowImageWarning();
+                showImageWarning();
             }
         }
 
-        ShowNetworkWarning();
+        showNetworkWarning();
 
         Button button = findViewById(R.id.button);
         button.setOnClickListener(v -> {
-            ShowNetworkWarning();
-            ShowImageWarning();
+            showNetworkWarning();
+            showImageWarning();
             if(isNetworkAvailable()) {
                 if (VERSION.SDK_INT >= 30) {
-                    CheckforPermission();
+                    checkforPermission();
                 } else {
                     checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
                 }
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    private void ShowImageWarning() {
+    private void showImageWarning() {
         TextView textimage = findViewById(R.id.textView);
         if(!isNetworkAvailable()) {
             textimage.setText(R.string.old_image_warning);
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void ShowNetworkWarning() {
+    private void showNetworkWarning() {
         if(!isNetworkAvailable()) {
             Toast toast = Toast.makeText(getApplicationContext(),
                     R.string.no_network_error,
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void CheckforPermission() {
+    public void checkforPermission() {
         if (VERSION.SDK_INT >= 30) {
             if (!Environment.isExternalStorageManager()) {
                 Snackbar.make(findViewById(android.R.id.content), "Permission needed!", Snackbar.LENGTH_INDEFINITE)
