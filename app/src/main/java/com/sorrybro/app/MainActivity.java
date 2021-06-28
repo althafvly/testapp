@@ -38,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
         String image_url = "https://picsum.photos/720";
         ImageLoader imgLoader = new ImageLoader(getApplicationContext());
 
-        checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
+        grantPermission();
 
-        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) ==
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
                 PackageManager.PERMISSION_GRANTED) {
             if (!isDirectoryEmpty()) {
                 imgLoader.DisplayImage(image_url, loader, image);
@@ -55,11 +55,6 @@ public class MainActivity extends AppCompatActivity {
             showNetworkWarning();
             showImageWarning();
             if(isNetworkAvailable()) {
-                if (VERSION.SDK_INT >= 30) {
-                    checkforPermission();
-                } else {
-                    checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
-                }
                 imgLoader.clearCache();
             }
             imgLoader.DisplayImage(image_url, loader, image);
@@ -101,31 +96,13 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    public void checkPermission(String permission, int requestCode)
-    {
+    public void grantPermission() {
         // Checking if permission is not granted
-        if (ContextCompat.checkSelfPermission(MainActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[] { permission }, requestCode);
-        }
-    }
-
-    public void checkforPermission() {
-        if (VERSION.SDK_INT >= 30) {
-            if (!Environment.isExternalStorageManager()) {
-                Snackbar.make(findViewById(android.R.id.content), "Permission needed!", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("Settings", v -> {
-                            try {
-                                Uri uri = Uri.parse("package:" + BuildConfig.APPLICATION_ID);
-                                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
-                                startActivity(intent);
-                            } catch (Exception ex) {
-                                Intent intent = new Intent();
-                                intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                                startActivity(intent);
-                            }
-                        })
-                        .show();
-            }
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] {
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE }, STORAGE_PERMISSION_CODE);
+            finish();
         }
     }
 }
